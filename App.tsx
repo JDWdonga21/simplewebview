@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, StatusBar } from "react-native";
+import {SafeAreaProvider} from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview';
 
-class MyWeb extends Component {
+class App extends Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar/>
         <WebView 
           source={{ uri: 'https://webnotice.netlify.app/' }} 
         />
@@ -13,3 +15,4 @@ class MyWeb extends Component {
     );
   }
 }
+export default App;
