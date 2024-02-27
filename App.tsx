@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Dimensions } from "react-native";
+import React, { Component, useRef } from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, View, Dimensions, BackHandler } from "react-native";
 import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview';
 
@@ -11,6 +11,23 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 class App extends Component {
+  webView = React.createRef<WebView>();
+  //webView = useRef();
+
+  componentDidMount(): void {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton)
+  }
+  componentWillUnmount(): void {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton)
+  }
+
+  handleBackButton = () =>{
+    if(this.webView.current && this.webView.current.goBack){
+      this.webView.current.goBack();
+      return true;
+    }
+    return false;
+  }
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -18,6 +35,7 @@ class App extends Component {
         <View style={styles.scrollView}>
           <>
             <WebView 
+              ref={this.webView}
               source={{ uri: 'https://webnotice.netlify.app/' }} 
             />
           </>
