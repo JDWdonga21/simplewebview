@@ -25,8 +25,8 @@ class App extends Component {
     if(this.webView.current && this.webView.current.goBack){
       console.log("웹 뒤로가기");
       Alert.alert(
-        "종료하시겠습니까?", 
-        "",
+        "<종료>", 
+        "정말로 종료하시겠습니까?",
         [
           {
             text: "아니요",
