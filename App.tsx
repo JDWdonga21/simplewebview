@@ -60,6 +60,7 @@ class App extends Component {
           <>
             <WebView 
               ref={this.webView}
+              style={{borderWidth: 0}}
               source={{ uri: 'https://webnotice.netlify.app/' }} 
             />
           </>
