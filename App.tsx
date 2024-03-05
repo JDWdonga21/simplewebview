@@ -60,7 +60,7 @@ class App extends Component {
           <>
             <WebView 
               ref={this.webView}
-              style={{borderWidth: 0}}
+              style={{borderWidth: 0, borderColor: 'transparent'}}
               source={{ uri: 'https://webnotice.netlify.app/' }} 
             />
           </>
@@ -71,12 +71,15 @@ class App extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    borderWidth: 0,
   },
   scrollView: {
     flex: 1,
     width: windowWidth,
     height: windowHeight,
+    borderWidth: 0,
+    backgroundColor: 'red',
   },
   exitButton: {
     backgroundColor: 'red',
