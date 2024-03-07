@@ -1,10 +1,14 @@
 import React, { Component, useRef } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View, Dimensions, BackHandler, TouchableOpacity, Text, Alert, Button } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View, Dimensions, BackHandler, KeyboardAvoidingView, Text, Alert, Button, Platform } from "react-native";
 import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview';
 
-StatusBar.setBackgroundColor("transparent");
-StatusBar.setTranslucent(true);
+if(Platform.OS === 'android'){
+  StatusBar.setBackgroundColor("transparent");
+  StatusBar.setTranslucent(true);
+  
+}
+
 StatusBar.setBarStyle("dark-content");
 
 const windowWidth = Dimensions.get('window').width;
@@ -52,11 +56,12 @@ class App extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar/>
-        <View style={styles.scrollView}>
-          {/* 앱 종료 버튼
-          <TouchableOpacity style={styles.exitButton} onPress={this.handleExitButton}>
-            <Text style={styles.exitButtonText} > 앱 종료 </Text>
-          </TouchableOpacity> */}
+        <KeyboardAvoidingView 
+          style={styles.flexContainer}
+          behavior={Platform.OS === "ios" ? "padding" : "padding"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 40}
+          enabled
+        >
           <>
             <WebView 
               ref={this.webView}
@@ -64,7 +69,7 @@ class App extends Component {
               source={{ uri: 'https://webnotice.netlify.app/' }} 
             />
           </>
-        </View>        
+        </KeyboardAvoidingView>        
       </SafeAreaView>
     );
   }
@@ -74,12 +79,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 0,
   },
-  scrollView: {
+  flexContainer: {
     flex: 1,
-    width: windowWidth,
-    height: windowHeight,
-    borderWidth: 0,
-    backgroundColor: 'red',
   },
   exitButton: {
     backgroundColor: 'red',
