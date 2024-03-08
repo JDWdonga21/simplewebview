@@ -480,6 +480,7 @@
 				INFOPLIST_FILE = simplewebview/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = test;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -513,6 +514,7 @@
 				INFOPLIST_FILE = simplewebview/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = test;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
