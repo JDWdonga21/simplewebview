@@ -59,7 +59,7 @@ class App extends Component {
         <KeyboardAvoidingView 
           style={styles.flexContainer}
           behavior={Platform.OS === "ios" ? "padding" : "padding"}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 40}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
           enabled
         >
           <>
