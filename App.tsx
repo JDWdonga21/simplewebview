@@ -11,8 +11,8 @@ if(Platform.OS === 'android'){
 
 StatusBar.setBarStyle("dark-content");
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+//const windowWidth = Dimensions.get('window').width;
+//const windowHeight = Dimensions.get('window').height;
 interface appProps{
 
 }
@@ -90,9 +90,9 @@ class App extends Component <appProps, appType> {
   } 
   render() {
     const { darkMode } = this.state;
-    const injectedJavaScript = `
-      document.body.classList.toggle('dark-mode', ${darkMode});
-    `;
+    // const injectedJavaScript = `
+    //   document.body.classList.toggle('dark-mode', ${darkMode});
+    // `;
     //this.updateStatusBarStyle(darkMode);
     StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
     return (
