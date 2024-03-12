@@ -1,5 +1,5 @@
 import React, { Component, useRef } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View, Dimensions, BackHandler, KeyboardAvoidingView, Text, Alert, Button, Platform } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View, Dimensions, BackHandler, KeyboardAvoidingView, Text, Alert, Button, Platform, Appearance } from "react-native";
 import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview';
 
@@ -13,16 +13,34 @@ StatusBar.setBarStyle("dark-content");
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+interface appProps{
 
-class App extends Component {
+}
+interface appType {
+  darkMode : any
+}
+class App extends Component <appProps, appType> {
   webView = React.createRef<WebView>();
   //webView = useRef();
+  constructor(appProps : appProps){
+    super(appProps);
+    this.state = {
+      darkMode : Appearance.getColorScheme() === 'dark',
+    }
+  }
 
   componentDidMount(): void {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton)
+    //시스템 컬러 스키마 변경 리스너
+    // Appearance.addChangeListener(({colorScheme}) => {
+    //   this.setState({ darkMode: colorScheme === 'dark' });
+    //   this.updateStatusBarStyle(colorScheme === 'dark');
+    // });
+    Appearance.addChangeListener(this.handleAppearanceChange);
   }
   componentWillUnmount(): void {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton)
+    //Appearance.removeChangeListener(this.handleAppearanceChange);
   }
 
   handleBackButton = () =>{
@@ -49,12 +67,36 @@ class App extends Component {
     return false;
   }
 
+  handleAppearanceChange = ( colorScheme : any ) => {
+    this.setState({ darkMode: colorScheme === 'dark' });
+  }
+  
+  handleWebViewMessage = (event : any) => {
+    const message = JSON.parse(event.nativeEvent.data);
+    if (message.isdarkTheme !== undefined) {
+      this.setState({ darkMode: message.isdarkTheme });
+      // 필요한 경우 StatusBar 스타일 변경
+      StatusBar.setBarStyle(message.isdarkTheme ? 'light-content' : 'dark-content');
+    }
+  }
+
+  updateStatusBarStyle = (_isDarkMode : any) => {
+    StatusBar.setBarStyle(_isDarkMode ? "light-content" : "dark-content");
+    StatusBar.setBackgroundColor(_isDarkMode ? "#1e1e1e" : "#ffc519");
+  }
+
   handleExitButton = () => {
     BackHandler.exitApp();
   } 
   render() {
+    const { darkMode } = this.state;
+    const injectedJavaScript = `
+      document.body.classList.toggle('dark-mode', ${darkMode});
+    `;
+    //this.updateStatusBarStyle(darkMode);
+    StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, {backgroundColor: darkMode? '#1e1e1e' : '#ffc519'}]}>
         <StatusBar/>
         <KeyboardAvoidingView 
           style={styles.flexContainer}
@@ -67,6 +109,8 @@ class App extends Component {
               ref={this.webView}
               style={{borderWidth: 0, borderColor: 'transparent'}}
               source={{ uri: 'https://webnotice.netlify.app/' }} 
+              // injectedJavaScript={injectedJavaScript}
+              onMessage={this.handleWebViewMessage}
             />
           </>
         </KeyboardAvoidingView>        
@@ -75,7 +119,7 @@ class App extends Component {
   }
 }
 const styles = StyleSheet.create({
-  container: {
+  container:{
     flex: 1,
     borderWidth: 0,
   },
