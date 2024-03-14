@@ -6,10 +6,9 @@ import { WebView } from 'react-native-webview';
 if(Platform.OS === 'android'){
   StatusBar.setBackgroundColor("transparent");
   StatusBar.setTranslucent(true);
-  
 }
 
-StatusBar.setBarStyle("dark-content");
+StatusBar.setBarStyle('light-content');
 
 //const windowWidth = Dimensions.get('window').width;
 //const windowHeight = Dimensions.get('window').height;
